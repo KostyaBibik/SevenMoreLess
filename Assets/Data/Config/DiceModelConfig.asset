@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba8186db4e74b62b5071d5166fbef58, type: 3}
+  m_Name: DiceModelConfig
+  m_EditorClassIdentifier: 
+  models:
+  - type: 1
+    prefab: {fileID: 6130647815099463729, guid: d1f20535b390650449616db3fd222055, type: 3}
+    spriteIterators:
+    - sprite: {fileID: 21300000, guid: 2f01c464332e40249a7f6f141455c12f, type: 3}
+      counter: 1
+    - sprite: {fileID: 21300000, guid: 9d65a79d1756ccc489f625496ed8c7d3, type: 3}
+      counter: 2
+    - sprite: {fileID: 21300000, guid: 8486e2a363ff25a4b976fc14c1712321, type: 3}
+      counter: 3
+    - sprite: {fileID: 21300000, guid: 99c0f7c000b7a51468346cc046346d8c, type: 3}
+      counter: 4
+    - sprite: {fileID: 21300000, guid: 614e5450281ac254e9f222bc17560327, type: 3}
+      counter: 5
+    - sprite: {fileID: 21300000, guid: 1f093b891b2df5d4d95c1aeece1d379b, type: 3}
+      counter: 6
+  - type: 2
+    prefab: {fileID: 6130647815099463729, guid: d1f20535b390650449616db3fd222055, type: 3}
+    spriteIterators:
+    - sprite: {fileID: 21300000, guid: 2f01c464332e40249a7f6f141455c12f, type: 3}
+      counter: 1
+    - sprite: {fileID: 21300000, guid: 9d65a79d1756ccc489f625496ed8c7d3, type: 3}
+      counter: 2
+    - sprite: {fileID: 21300000, guid: 8486e2a363ff25a4b976fc14c1712321, type: 3}
+      counter: 3
+    - sprite: {fileID: 21300000, guid: 99c0f7c000b7a51468346cc046346d8c, type: 3}
+      counter: 4
+    - sprite: {fileID: 21300000, guid: 614e5450281ac254e9f222bc17560327, type: 3}
+      counter: 5
+    - sprite: {fileID: 21300000, guid: 1f093b891b2df5d4d95c1aeece1d379b, type: 3}
+      counter: 6
