@@ -6,12 +6,14 @@ This is a test project for the "Skill Cap" company.
 ```bash
 ├── Zenject                  
 ├── TextMesh Pro          
-├── UniRx              
-├── Hierarchy Pro                  
-├── Universal Renderer Pipeline            
+├── UniRx               
 ```
  
 The project is focused on building a code architecture with an uncomplicated Ui and using various architectural patterns
 
-https://github.com/KostyaBibik/SevenMoreLess/assets/77735628/968bd5e3-99b1-4b26-8a0a-9e08ab71ab25
+
+
+# Preview
+
+https://github.com/KostyaBibik/SevenMoreLess/assets/77735628/6a4de718-5934-4082-861a-61c6c6885c00
 
