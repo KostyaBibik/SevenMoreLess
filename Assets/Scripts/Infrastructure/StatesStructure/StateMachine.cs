@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
-using UnityEngine;
 
 namespace Infrastructure.StatesStructure
 {
@@ -14,8 +13,6 @@ namespace Infrastructure.StatesStructure
 
         public StateMachine(params BaseState[] states)
         {
-            Debug.Log("State machine");
-            
             for (var i = 0; i < states.Length; i++)
             {
                 this.states.Add(states[i]);    

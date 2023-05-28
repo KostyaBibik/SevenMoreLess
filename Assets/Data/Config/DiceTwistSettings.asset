@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DiceTwistSettings
   m_EditorClassIdentifier: 
   timeTwisting: 5
-  intervalSwapCounter: 1
+  intervalSwapCounter: 0.65
