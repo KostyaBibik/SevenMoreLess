@@ -7,6 +7,7 @@
         Waiting,
         Preparation,
         Twisting,
-        Result
+        Result,
+        Reset
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DataBase;
 using DataBase.Dice;
+using UnityEngine;
 
 namespace Services.Dice
 {
@@ -11,6 +12,15 @@ namespace Services.Dice
         public void AddEntityOnService(IPresenter entityView)
         {
             DicePresenters.Add((DicePresenter) entityView);
+        }
+
+        public void RemoveEntities()
+        {
+            for (var i = 0; i < DicePresenters.Count; i++)
+            {
+                Object.Destroy(DicePresenters[i].View.gameObject);
+            }
+            DicePresenters.Clear();
         }
     }
 }

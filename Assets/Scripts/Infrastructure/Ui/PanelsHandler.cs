@@ -20,13 +20,13 @@ namespace Infrastructure.Ui
                 panel.onSwapPanel += ActivatePanel;
         }
         
-        protected void ActivatePanel(EPanelType type)
+        public void ActivatePanel(EPanelType type)
         {
             foreach (var panel in Panels)
                 panel.gameObject.SetActive(panel.PanelType == type);
         }
 
-        protected Panel GetPanel(EPanelType type)
+        public Panel GetPanel(EPanelType type)
         {
             return Panels.FirstOrDefault(panel => panel.PanelType == type);
         }

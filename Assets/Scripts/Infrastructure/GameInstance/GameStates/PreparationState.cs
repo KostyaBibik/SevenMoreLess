@@ -3,8 +3,8 @@ using System.Collections;
 using Enums;
 using Infrastructure.Signals;
 using Infrastructure.StatesStructure;
+using Infrastructure.Ui;
 using UniRx;
-using UnityEngine;
 using Views.Game;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -15,23 +15,28 @@ namespace Infrastructure.GameInstance.GameStates
     {
         private readonly SignalBus _signalBus;
         private readonly SceneHandler _sceneHandler;
+        private readonly PanelsHandler _panelsHandler;
         
         public PreparationState(
             GameInstance gameInstance,
             EGameState gameState,
             SignalBus signalBus,
-            SceneHandler sceneHandler
+            SceneHandler sceneHandler,
+            PanelsHandler panelsHandler
         )
             : base(gameInstance, gameState)
         {
             _signalBus = signalBus;
             _sceneHandler = sceneHandler;
+            _panelsHandler = panelsHandler;
         }
         
         public override IEnumerator Enter()
         {
             var enumArray = Enum.GetValues(typeof(EDiceType));
             var randomType = (EDiceType)enumArray.GetValue(Random.Range(1, enumArray.Length));
+            
+            _panelsHandler.ActivatePanel(EPanelType.GamePanel);
             
             for (var i = 0; i < _sceneHandler.Markers.Length; i++)
             {
@@ -42,16 +47,17 @@ namespace Infrastructure.GameInstance.GameStates
                 });
             }
 
-            Debug.Log("SimulatingState Enter");
-
             yield return null;
             
-            Observable.FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Twisting)).Subscribe();
+            Observable
+                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Twisting))
+                .Subscribe()
+                .AddTo(disposable);
         }
 
         public override IEnumerator Exit()
         {
-            Debug.Log("SimulatingState Exit");
+            disposable.Clear();
             
             yield return null;
         }

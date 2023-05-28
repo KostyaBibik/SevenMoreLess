@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using Enums;
 using Infrastructure.StatesStructure;
+using Infrastructure.Ui;
+using Infrastructure.Ui.Panels;
 using UniRx;
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.UI;
-using Views.Ui;
 
 namespace Infrastructure.GameInstance.GameStates
 {
@@ -13,15 +12,19 @@ namespace Infrastructure.GameInstance.GameStates
     {
         private readonly Button _twistBtn;
         
-        public WaitingState(GameInstance gameInstance, EGameState gameState, RollBtnView rollBtnView) : base(gameInstance, gameState)
+        public WaitingState(
+            GameInstance gameInstance,
+            EGameState gameState,
+            PanelsHandler panelsHandler
+        ) : base(gameInstance, gameState)
         {
-            _twistBtn = rollBtnView.Button;
+            var startPanel = (StartPanel)panelsHandler.GetPanel(EPanelType.StartPanel);
+            
+            _twistBtn = startPanel.TwistBtnView;
         }
         
         public override IEnumerator Enter()
         {
-            Debug.Log("WaitingState Enter");
-            
             _twistBtn.onClick.AddListener(OnClick);
             
             yield break;
@@ -29,13 +32,16 @@ namespace Infrastructure.GameInstance.GameStates
 
         private void OnClick()
         {
-            Debug.Log("OnClick");
-            Observable.FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Preparation)).Subscribe();
+            Observable
+                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Preparation))
+                .Subscribe()
+                .AddTo(disposable);
         }
 
         public override IEnumerator Exit()
         {
-            Debug.Log("WaitingState Exit");
+            _twistBtn.onClick.RemoveListener(OnClick);
+            disposable.Clear();
             
             yield return null;
         }

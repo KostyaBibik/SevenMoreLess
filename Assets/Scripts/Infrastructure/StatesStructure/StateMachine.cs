@@ -28,7 +28,6 @@ namespace Infrastructure.StatesStructure
                 yield return _currentBaseState.Exit();
 
             _currentBaseState = GetState(gameState);
-            Debug.Log($"ChangeState: {gameState}");
             
             if (_currentBaseState != null)
                 yield return _currentBaseState.Enter();

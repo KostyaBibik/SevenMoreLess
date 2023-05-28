@@ -3,7 +3,6 @@ using Enums;
 using Infrastructure.Signals;
 using Infrastructure.StatesStructure;
 using UniRx;
-using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.GameInstance.GameStates
@@ -24,17 +23,18 @@ namespace Infrastructure.GameInstance.GameStates
         public override IEnumerator Enter()
         {
             _signalBus.Fire(new TwistDicesSignal());
-
-            Debug.Log("TwistingState Enter");
             
             yield return null;
-            
-            Observable.FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Result)).Subscribe();
+
+            Observable
+                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Result))
+                .Subscribe()
+                .AddTo(disposable);
         }
 
         public override IEnumerator Exit()
         {
-            Debug.Log("TwistingState Exit");
+            disposable.Clear();
             
             yield return null;
         }

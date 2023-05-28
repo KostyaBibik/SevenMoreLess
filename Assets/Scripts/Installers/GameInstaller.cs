@@ -3,6 +3,7 @@ using Infrastructure.Factories.Impl;
 using Infrastructure.GameInstance;
 using Infrastructure.Signals;
 using Services.Dice;
+using Services.Game;
 using UnityEngine;
 using Views.Game;
 using Zenject;
@@ -26,6 +27,7 @@ namespace Installers
         private void InstallGameInstance()
         {
             Container.Bind<GameInstance>().AsSingle().NonLazy();
+            Container.Bind<GameMatcher>().AsSingle().NonLazy();
         }
 
         private void InstallGameSystems()

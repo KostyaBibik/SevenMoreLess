@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using Enums;
+using UniRx;
 
 namespace Infrastructure.StatesStructure
 {
     public abstract class BaseState
     {
-        public EGameState gameState;
+        public readonly EGameState gameState;
         
-        protected GameInstance.GameInstance context;
+        protected readonly GameInstance.GameInstance context;
+        protected readonly CompositeDisposable disposable = new CompositeDisposable();
 
-        public BaseState(
+        protected BaseState(
             GameInstance.GameInstance gameInstance,
             EGameState gameState
         )

@@ -1,8 +1,9 @@
 ﻿using Enums;
 using Infrastructure.GameInstance.GameStates;
+using Infrastructure.Ui;
+using Services.Dice;
 using UniRx;
 using Views.Game;
-using Views.Ui;
 using Zenject;
 
 namespace Infrastructure.GameInstance
@@ -12,17 +13,19 @@ namespace Infrastructure.GameInstance
         public readonly StatesStructure.StateMachine stateMachine;
         
         public GameInstance(
-            RollBtnView rollBtnView,
             SignalBus signalBus,
-            SceneHandler sceneHandler
+            SceneHandler sceneHandler,
+            PanelsHandler panelsHandler,
+            DiceService diceService
         )
         {
             stateMachine = new StatesStructure.StateMachine(
-                new LoadingState(this, EGameState.Loading),
-                new WaitingState(this, EGameState.Waiting, rollBtnView),
-                new PreparationState(this, EGameState.Preparation, signalBus, sceneHandler),
+                new LoadingState(this, EGameState.Loading, panelsHandler),
+                new WaitingState(this, EGameState.Waiting, panelsHandler),
+                new PreparationState(this, EGameState.Preparation, signalBus, sceneHandler, panelsHandler),
                 new TwistingState(this, EGameState.Twisting, signalBus),
-                new ResultState(this, EGameState.Result, signalBus)
+                new ResultState(this, EGameState.Result, signalBus, panelsHandler),
+                new ResetState(this, EGameState.Reset, diceService, panelsHandler)
             );
 
             Observable.FromCoroutine<EGameState>(_ => stateMachine.ChangeState(EGameState.Loading)).Subscribe();

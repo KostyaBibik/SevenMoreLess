@@ -4,6 +4,7 @@
     {
         None,
         StartPanel,
-        GamePanel
+        GamePanel,
+        ResultPanel
     }
 }
