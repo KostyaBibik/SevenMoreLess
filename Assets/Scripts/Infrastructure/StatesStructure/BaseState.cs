@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Enums;
-using UniRx;
 
 namespace Infrastructure.StatesStructure
 {
@@ -9,7 +8,6 @@ namespace Infrastructure.StatesStructure
         public readonly EGameState gameState;
         
         protected readonly GameInstance.GameInstance context;
-        protected readonly CompositeDisposable disposable = new CompositeDisposable();
 
         protected BaseState(
             GameInstance.GameInstance gameInstance,

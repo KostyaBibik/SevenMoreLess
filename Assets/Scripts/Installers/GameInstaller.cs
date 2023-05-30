@@ -1,5 +1,4 @@
-﻿using Systems.Game;
-using Infrastructure.Factories.Impl;
+﻿using Infrastructure.Factories.Impl;
 using Infrastructure.GameInstance;
 using Infrastructure.Signals;
 using Services.Dice;
@@ -17,7 +16,6 @@ namespace Installers
         public override void InstallBindings()
         {
             InstallGameInstance();
-            InstallGameSystems();
             InstallFactories();
             InstallServices();
             InstallSignals();
@@ -28,12 +26,6 @@ namespace Installers
         {
             Container.Bind<GameInstance>().AsSingle().NonLazy();
             Container.Bind<GameMatcher>().AsSingle().NonLazy();
-        }
-
-        private void InstallGameSystems()
-        {
-            Container.BindInterfacesAndSelfTo<DiceTwistSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<DiceSpawnSystem>().AsSingle().NonLazy();
         }
 
         private void InstallFactories()

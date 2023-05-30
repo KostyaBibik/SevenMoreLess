@@ -9,15 +9,15 @@ namespace Infrastructure.Factories.Impl
 {
     public class UnitFactory : IFactory
     {
-        private readonly DiceModelConfig _diceModelConfig;
+        private readonly DiceConfig _diceConfig;
         private readonly DiceService _diceService;
 
         public UnitFactory(
-            DiceModelConfig diceModelConfig,
+            DiceConfig diceConfig,
             DiceService diceService
         )
         {
-            _diceModelConfig = diceModelConfig;
+            _diceConfig = diceConfig;
             _diceService = diceService;
         }
         
@@ -26,12 +26,14 @@ namespace Infrastructure.Factories.Impl
             Vector3 pos
         )
         {
-            var model = _diceModelConfig.GetModel(type);
-            var diceView = DiContainerRef.Container.InstantiatePrefabForComponent<DiceView>(model.Prefab);
-            var dicePresenter = new DicePresenter(diceView, type, model.SpriteIterators);
+            var diceVo = _diceConfig.GetDiceVo(type);
+            var diceView = DiContainerRef.Container.InstantiatePrefabForComponent<DiceView>(diceVo.Prefab);
+            var diceModel = new DiceModel();
+            diceModel.SetSpriteIterators(diceVo.SpriteIterators);
+            diceModel.SetType(type);
+            var dicePresenter = new DicePresenter(diceView, diceModel);
             var diceTransform = diceView.transform;
             diceTransform.position = pos;
-            
             _diceService.AddEntityOnService(dicePresenter);
         }
     }

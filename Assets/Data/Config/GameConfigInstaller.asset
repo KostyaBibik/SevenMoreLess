@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499eaa99d52d19a428709fd9c840fc77, type: 3}
   m_Name: GameConfigInstaller
   m_EditorClassIdentifier: 
-  diceModelConfig: {fileID: 11400000, guid: 11053d33ae4e7a84a87bc5b6b51d0679, type: 2}
+  diceConfig: {fileID: 11400000, guid: 11053d33ae4e7a84a87bc5b6b51d0679, type: 2}
   DiceTwistSettings: {fileID: 11400000, guid: fe10ac94ffc4ad840a64eddfd296be4b, type: 2}

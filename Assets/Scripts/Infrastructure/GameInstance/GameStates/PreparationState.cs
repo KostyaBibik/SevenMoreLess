@@ -1,34 +1,37 @@
 ﻿using System;
 using System.Collections;
 using Enums;
-using Infrastructure.Signals;
+using Infrastructure.Commands.Impl;
+using Infrastructure.Factories.Impl;
 using Infrastructure.StatesStructure;
 using Infrastructure.Ui;
-using UniRx;
+using Services.Dice;
 using Views.Game;
-using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Infrastructure.GameInstance.GameStates
 {
     public class PreparationState : BaseState
     {
-        private readonly SignalBus _signalBus;
         private readonly SceneHandler _sceneHandler;
         private readonly PanelsHandler _panelsHandler;
+        private readonly UnitFactory _unitFactory;
+        private readonly DiceService _diceService;
         
         public PreparationState(
             GameInstance gameInstance,
             EGameState gameState,
-            SignalBus signalBus,
             SceneHandler sceneHandler,
-            PanelsHandler panelsHandler
+            PanelsHandler panelsHandler,
+            UnitFactory factory,
+            DiceService diceService
         )
             : base(gameInstance, gameState)
         {
-            _signalBus = signalBus;
             _sceneHandler = sceneHandler;
             _panelsHandler = panelsHandler;
+            _unitFactory = factory;
+            _diceService = diceService;
         }
         
         public override IEnumerator Enter()
@@ -40,24 +43,12 @@ namespace Infrastructure.GameInstance.GameStates
             
             for (var i = 0; i < _sceneHandler.Markers.Length; i++)
             {
-                _signalBus.Fire(new SpawnDiceSignal
-                {
-                    pos = _sceneHandler.Markers[i],
-                    type = randomType
-                });
+                var spawnDiceCommand = new SpawnDiceCommand(_unitFactory, randomType, _sceneHandler.Markers[i], _diceService);
+                context.commandProcessor.AddCommand(spawnDiceCommand);
             }
 
-            yield return null;
-            
-            Observable
-                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Twisting))
-                .Subscribe()
-                .AddTo(disposable);
-        }
-
-        public override IEnumerator Exit()
-        {
-            disposable.Clear();
+            var changeStateCommand = new ChangeStateCommand(context.stateMachine, EGameState.Twisting);
+            context.commandProcessor.AddCommand(changeStateCommand);
             
             yield return null;
         }

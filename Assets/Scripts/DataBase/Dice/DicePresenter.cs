@@ -1,37 +1,49 @@
-﻿using Enums;
+﻿using System.Linq;
+using UniRx;
+using UnityEngine;
 using Views.Game;
 
 namespace DataBase.Dice
 {
     public class DicePresenter : IPresenter
     {
-        private readonly SpriteIterator[] _spriteIterators;
         private readonly DiceView _view;
+        private readonly DiceModel _model;
         
         public DiceView View => _view;
-        public SpriteIterator[] SpriteIterators => _spriteIterators;
+        public SpriteIterator[] SpriteIterators => _model.SpriteIterators.ToArray();
 
         public DicePresenter(
             DiceView view,
-            EDiceType type,
-            SpriteIterator[] spriteIterators
+            DiceModel model
         )
         {
             _view = view;
-            _spriteIterators = spriteIterators;
+            _model = model;
+            
+            BindChangeModelCounter();
         }
-
+        
         public void ChangeCounter(int count)
         {
-            for (var i = 0; i < _spriteIterators.Length; i++)
+            _model.SetCountValue(count);
+        }
+
+        private void BindChangeModelCounter()
+        {
+            _model.Counter.Subscribe(counter =>
             {
-                if (count != _spriteIterators[i].counter)
-                    continue;
-                
-                var sprite = _spriteIterators[i].sprite;
-                _view.SpriteRenderer.sprite = sprite;
-                return;
-            }
+                var matchingSprite = FindMatchingSprite(counter);
+                if (matchingSprite != null)
+                {
+                    _view.SpriteRenderer.sprite = matchingSprite;
+                }
+            });
+        }
+        
+        private Sprite FindMatchingSprite(int counter)
+        {
+            return (from iterator in SpriteIterators where iterator.counter == counter select iterator.sprite).FirstOrDefault();
         }
     }
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fba8186db4e74b62b5071d5166fbef58, type: 3}
-  m_Name: DiceModelConfig
+  m_Name: DiceVoConfig
   m_EditorClassIdentifier: 
-  models:
+  diceVos:
   - type: 1
     prefab: {fileID: 6130647815099463729, guid: d1f20535b390650449616db3fd222055, type: 3}
     spriteIterators:

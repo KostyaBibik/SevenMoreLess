@@ -1,34 +1,48 @@
-﻿using Enums;
+﻿using DataBase.Dice;
+using Enums;
+using Infrastructure.Commands;
+using Infrastructure.Commands.Impl;
+using Infrastructure.Factories.Impl;
 using Infrastructure.GameInstance.GameStates;
 using Infrastructure.Ui;
 using Services.Dice;
-using UniRx;
 using Views.Game;
-using Zenject;
 
 namespace Infrastructure.GameInstance
 {
     public class GameInstance
     {
         public readonly StatesStructure.StateMachine stateMachine;
+        public readonly CommandProcessor commandProcessor;
         
         public GameInstance(
-            SignalBus signalBus,
             SceneHandler sceneHandler,
             PanelsHandler panelsHandler,
-            DiceService diceService
+            DiceService diceService,
+            UnitFactory unitFactory, 
+            DiceTwistSettings twistSettings
         )
         {
+            commandProcessor = new CommandProcessor();
+            
+            var loadingState = new LoadingState(this, EGameState.Loading, panelsHandler);
+            var waitingState = new WaitingState(this, EGameState.Waiting, panelsHandler);
+            var preparationState = new PreparationState(this, EGameState.Preparation, sceneHandler, panelsHandler, unitFactory, diceService);
+            var resultState = new ResultState(this, EGameState.Result, panelsHandler);
+            var twistingState = new TwistingState(this, EGameState.Twisting, twistSettings, diceService, resultState);
+            var resetState =  new ResetState(this, EGameState.Reset, diceService, panelsHandler);
+            
             stateMachine = new StatesStructure.StateMachine(
-                new LoadingState(this, EGameState.Loading, panelsHandler),
-                new WaitingState(this, EGameState.Waiting, panelsHandler),
-                new PreparationState(this, EGameState.Preparation, signalBus, sceneHandler, panelsHandler),
-                new TwistingState(this, EGameState.Twisting, signalBus),
-                new ResultState(this, EGameState.Result, signalBus, panelsHandler),
-                new ResetState(this, EGameState.Reset, diceService, panelsHandler)
+                loadingState,
+                waitingState,
+                preparationState,
+                resultState,
+                twistingState,
+                resetState
             );
 
-            Observable.FromCoroutine<EGameState>(_ => stateMachine.ChangeState(EGameState.Loading)).Subscribe();
+            var changeStateCommand = new ChangeStateCommand(stateMachine, EGameState.Loading);
+            commandProcessor.AddCommand(changeStateCommand);
         }
     }
 }

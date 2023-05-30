@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Enums;
+using Infrastructure.Commands.Impl;
 using Infrastructure.StatesStructure;
 using Infrastructure.Ui;
 using Infrastructure.Ui.Panels;
-using UniRx;
 using UnityEngine.UI;
 
 namespace Infrastructure.GameInstance.GameStates
@@ -25,25 +25,10 @@ namespace Infrastructure.GameInstance.GameStates
         
         public override IEnumerator Enter()
         {
-            _twistBtn.onClick.AddListener(OnClick);
+            var twistButtonCommand = new TwistButtonCommand(_twistBtn, context);
+            context.commandProcessor.AddCommand(twistButtonCommand);
             
             yield break;
-        }
-
-        private void OnClick()
-        {
-            Observable
-                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Preparation))
-                .Subscribe()
-                .AddTo(disposable);
-        }
-
-        public override IEnumerator Exit()
-        {
-            _twistBtn.onClick.RemoveListener(OnClick);
-            disposable.Clear();
-            
-            yield return null;
         }
     }
 }

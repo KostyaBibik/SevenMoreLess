@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using Enums;
+using Infrastructure.Commands.Impl;
 using Infrastructure.StatesStructure;
 using Infrastructure.Ui;
-using Infrastructure.Ui.Panels;
 using Services.Dice;
-using UniRx;
 
 namespace Infrastructure.GameInstance.GameStates
 {
@@ -27,23 +26,13 @@ namespace Infrastructure.GameInstance.GameStates
         
         public override IEnumerator Enter()
         {
-            _diceService.RemoveEntities();
-            var startPanel = (StartPanel)_panelsHandler.GetPanel(EPanelType.StartPanel);
-            startPanel.ResetToggleGroup();
+            var processResetCommand = new ProcessResetCommand(_diceService, _panelsHandler, context);
+            context.commandProcessor.AddCommand(processResetCommand);
             
-            Observable
-                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Loading))
-                .Subscribe()
-                .AddTo(disposable);
+            var changeStateCommand = new ChangeStateCommand(context.stateMachine, EGameState.Loading);
+            context.commandProcessor.AddCommand(changeStateCommand);
             
             yield break;
-        }
-
-        public override IEnumerator Exit()
-        {
-            disposable.Clear();
-            
-            yield return null;
         }
     }
 }

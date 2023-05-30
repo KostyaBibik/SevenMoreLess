@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using Enums;
+using Infrastructure.Commands.Impl;
 using Infrastructure.StatesStructure;
 using Infrastructure.Ui;
-using UniRx;
-using UnityEngine;
 
 namespace Infrastructure.GameInstance.GameStates
 {
@@ -26,17 +25,8 @@ namespace Infrastructure.GameInstance.GameStates
             
             yield return null;
             
-            Observable
-                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Waiting))
-                .Subscribe()
-                .AddTo(disposable);
-        }
-
-        public override IEnumerator Exit()
-        {
-            disposable.Clear();
-            
-            yield return null;
+            var changeStateCommand = new ChangeStateCommand(context.stateMachine, EGameState.Waiting);
+            context.commandProcessor.AddCommand(changeStateCommand);
         }
     }
 }

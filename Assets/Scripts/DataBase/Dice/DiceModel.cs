@@ -1,19 +1,33 @@
-﻿using System;
-using Enums;
-using UnityEngine;
-using Views.Game;
+﻿using Enums;
+using UniRx;
 
 namespace DataBase.Dice
 {
-    [Serializable]
-    public struct DiceModel
+    public class DiceModel
     {
-        [SerializeField] private EDiceType type;
-        [SerializeField] private DiceView prefab;
-        [SerializeField] private SpriteIterator[] spriteIterators;
-            
-        public EDiceType Type => type;
-        public DiceView Prefab => prefab;
-        public SpriteIterator[] SpriteIterators => spriteIterators;
+        private readonly ReactiveProperty<EDiceType> _type = new ReactiveProperty<EDiceType>();
+        private readonly ReactiveProperty<int> _count = new ReactiveProperty<int>();
+        private readonly ReactiveCollection<SpriteIterator> _spriteIterators = new ReactiveCollection<SpriteIterator>();
+
+        public IReadOnlyReactiveProperty<int> Counter => _count;
+        public IReadOnlyReactiveCollection<SpriteIterator> SpriteIterators => _spriteIterators;
+
+        public void SetType(EDiceType type)
+        {
+            _type.Value = type;
+        }
+
+        public void SetCountValue(int count)
+        {
+            _count.Value = count;
+        }
+        
+        public void SetSpriteIterators(SpriteIterator[] spriteIterators)
+        {
+            for (var i = 0; i < spriteIterators.Length; i++)
+            {
+                _spriteIterators.Add(spriteIterators[i]);
+            }
+        }
     }
 }

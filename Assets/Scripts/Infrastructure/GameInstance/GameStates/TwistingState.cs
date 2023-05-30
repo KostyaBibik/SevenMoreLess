@@ -1,41 +1,46 @@
 ﻿using System.Collections;
+using DataBase.Dice;
 using Enums;
-using Infrastructure.Signals;
+using Infrastructure.Commands.Impl;
 using Infrastructure.StatesStructure;
+using Services.Dice;
 using UniRx;
-using Zenject;
 
 namespace Infrastructure.GameInstance.GameStates
 {
     public class TwistingState : BaseState
     {
-        private readonly SignalBus _signalBus;
-        
+        private readonly DiceTwistSettings _twistSettings;
+        private readonly DiceService _diceService;
+        private readonly Subject<Unit> _twistCompletionSignal = new Subject<Unit>();
+        private readonly ITwistingCompletedObserver _twistingCompletedObserver;
+
         public TwistingState(
             GameInstance gameInstance,
             EGameState gameState,
-            SignalBus signalBus
+            DiceTwistSettings twistSettings,
+            DiceService diceService,
+            ITwistingCompletedObserver twistingCompletedObserver
         ) : base(gameInstance, gameState)
         {
-            _signalBus = signalBus;
+            _diceService = diceService;
+            _twistSettings = twistSettings;
+            _twistingCompletedObserver = twistingCompletedObserver;
         }
         
         public override IEnumerator Enter()
         {
-            _signalBus.Fire(new TwistDicesSignal());
+            var twistDicesCommand = new TwistDicesCommand(_diceService, _twistSettings);
+            twistDicesCommand.CompletionSignal.Subscribe(_ => _twistCompletionSignal.OnNext(Unit.Default));
+            context.commandProcessor.AddCommand(twistDicesCommand);
             
-            yield return null;
+            _twistCompletionSignal.Subscribe(_ =>
+            {
+                var changeStateCommand = new ChangeStateCommand(context.stateMachine, EGameState.Result);
+                context.commandProcessor.AddCommand(changeStateCommand);
+                _twistingCompletedObserver.OnTwistingCompleted(twistDicesCommand.DiceSum.Value);
+            });
 
-            Observable
-                .FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Result))
-                .Subscribe()
-                .AddTo(disposable);
-        }
-
-        public override IEnumerator Exit()
-        {
-            disposable.Clear();
-            
             yield return null;
         }
     }

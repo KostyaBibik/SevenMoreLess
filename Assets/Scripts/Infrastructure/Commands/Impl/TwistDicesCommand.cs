@@ -2,41 +2,45 @@
 using System.Collections;
 using System.Linq;
 using DataBase.Dice;
-using Infrastructure.Signals;
 using Services.Dice;
 using UniRx;
 using UnityEngine;
-using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Systems.Game
+namespace Infrastructure.Commands.Impl
 {
-    public class DiceTwistSystem : IInitializable, IDisposable
+    public class TwistDicesCommand : BaseCommand
     {
+        public readonly ReactiveProperty<int> _diceSum;
         private readonly DiceService _diceService;
-        private readonly SignalBus _signalBus;
         private readonly DiceTwistSettings _twistSettings;
-
-        public DiceTwistSystem(
-            SignalBus signalBus,
+        private readonly Subject<Unit> _completionSignal;
+        public ReactiveProperty<int> DiceSum => _diceSum;
+        public IObservable<Unit> CompletionSignal => _completionSignal;
+        
+        public TwistDicesCommand(
             DiceService diceService,
-            DiceTwistSettings diceTwistSettings
+            DiceTwistSettings twistSettings
         )
         {
-            _signalBus     = signalBus;
-            _diceService   = diceService;
-            _twistSettings = diceTwistSettings;
+            _diceService = diceService;
+            _twistSettings = twistSettings;
+            _completionSignal = new Subject<Unit>();
+            _diceSum = new ReactiveProperty<int>();
         }
-
-        private void TwistDices(TwistDicesSignal signal)
+        
+        public override void Execute()
         {
-            Observable.FromCoroutine(SimulateTwisting).Subscribe();
+            Observable.FromCoroutine(SimulateTwisting).Subscribe(_ =>
+            {
+                _completionSignal.OnNext(Unit.Default);
+                _completionSignal.OnCompleted();
+            });
         }
 
         private IEnumerator SimulateTwisting()
         {
             var dicePresenters = _diceService.DicePresenters;
-
             var timeTwisting = 0f;
             var targetTime = _twistSettings.TimeTwisting;
             var counters = new int[dicePresenters.Count];
@@ -45,8 +49,8 @@ namespace Systems.Game
 
             do
             {
-                timeTwisting += 1f;
-                
+                timeTwisting += interval;
+
                 for (var i = 0; i < dicePresenters.Count; i++)
                 {
                     int GetCounter(int skipValue)
@@ -57,7 +61,7 @@ namespace Systems.Game
                             newCounter = Random.Range(0, dicePresenters[i].SpriteIterators.Length);
                         }
                         while (dicePresenters[i].SpriteIterators[newCounter].counter == skipValue);
-                        
+
                         return newCounter;
                     }
 
@@ -65,7 +69,7 @@ namespace Systems.Game
                         .Where(iterator => iterator.counter == counters[i])
                         .Select(iterator => iterator.counter)
                         .FirstOrDefault();
-                    
+
                     var randomIterator = GetCounter(oldValue);
                     var counter = dicePresenters[i].SpriteIterators[randomIterator].counter;
                     dicePresenters[i].ChangeCounter(counter);
@@ -76,20 +80,9 @@ namespace Systems.Game
 
             } while (targetTime > timeTwisting);
             
-            _signalBus.Fire(new ResultSignal
-            {
-                counters = counters
-            });
+            _diceSum.Value = counters.Sum();
         }
-
-        public void Initialize()
-        {
-            _signalBus.Subscribe<TwistDicesSignal>(TwistDices);
-        }
-
-        public void Dispose()
-        {
-            _signalBus.Unsubscribe<TwistDicesSignal>(TwistDices);
-        }
+        
+        public override void Undo() { }
     }
 }

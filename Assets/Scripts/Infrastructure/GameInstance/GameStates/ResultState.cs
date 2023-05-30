@@ -1,79 +1,43 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections;
 using Enums;
-using Infrastructure.Signals;
+using Infrastructure.Commands.Impl;
 using Infrastructure.StatesStructure;
 using Infrastructure.Ui;
-using Infrastructure.Ui.Panels;
-using Services.Game;
 using UniRx;
-using Zenject;
 
 namespace Infrastructure.GameInstance.GameStates
 {
-    public class ResultState : BaseState, IDisposable
+    public class ResultState : BaseState, ITwistingCompletedObserver
     {
-        private readonly SignalBus _signalBus;
         private readonly PanelsHandler _panelsHandler;
+        private readonly ReactiveProperty<int> _diceSum;
         
         public ResultState(
             GameInstance gameInstance,
             EGameState gameState,
-            SignalBus signalBus,
             PanelsHandler panelsHandler
             ) : base(gameInstance, gameState)
         {
-            _signalBus = signalBus;
             _panelsHandler = panelsHandler;
-
-            SubscribeToSignal();
+            _diceSum = new ReactiveProperty<int>();
         }
 
-        private void SubscribeToSignal()
+        public void OnTwistingCompleted(int diceSum)
         {
-            _signalBus.Subscribe<ResultSignal>(OnHandleResultSignal);
+            _diceSum.Value = diceSum;
         }
-
-        private void OnHandleResultSignal(ResultSignal signal)
+        
+        public override IEnumerator Enter()
         {
-            var resultPanelType = EPanelType.ResultPanel;
-            _panelsHandler.ActivatePanel(resultPanelType);
-            var resultPanel = (ResultPanel)_panelsHandler.GetPanel(resultPanelType);
-            var sum = signal.counters.Sum();
-            var correctStatus = false;
-            resultPanel.SetSumCount(sum);
+            var processResultCommand = new ProcessResultCommand(context, _panelsHandler, _diceSum);
+            context.commandProcessor.AddCommand(processResultCommand);
             
-            switch (GameMatcher.ComparisonChoice)
-            {
-                case EComparisonStatus.EqualToSeven:
-                    if (sum == 7)
-                        correctStatus = true;
-                    break;
-                
-                case EComparisonStatus.LessThanSeven:
-                    if (sum < 7)
-                        correctStatus = true;
-                    break;
-                case EComparisonStatus.GreaterThanSeven:
-                    if (sum > 7)
-                        correctStatus = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            
-            resultPanel.SetResultStatus(correctStatus);
-            resultPanel.RetryBtn.onClick.AddListener(OnRetry);
+            yield return null;
         }
-
-        private void OnRetry()
+        
+        public override IEnumerator Exit()
         {
-            Observable.FromCoroutine<EGameState>(_ => context.stateMachine.ChangeState(EGameState.Reset)).Subscribe();
-        }
-
-        public void Dispose()
-        {
-            _signalBus.Unsubscribe<ResultSignal>(OnHandleResultSignal);
+            yield return null;
         }
     }
 }
