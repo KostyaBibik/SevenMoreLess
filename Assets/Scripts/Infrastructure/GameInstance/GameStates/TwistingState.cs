@@ -2,6 +2,7 @@
 using DataBase.Dice;
 using Enums;
 using Infrastructure.Commands.Impl;
+using Infrastructure.Commands.Impl.GameCommands;
 using Infrastructure.StatesStructure;
 using Services.Dice;
 using UniRx;

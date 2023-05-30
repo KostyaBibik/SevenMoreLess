@@ -5,7 +5,7 @@ using Infrastructure.Ui.Panels;
 using Services.Game;
 using UniRx;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class ProcessResultCommand : BaseCommand
     {

@@ -3,7 +3,7 @@ using Infrastructure.Factories.Impl;
 using Services.Dice;
 using UnityEngine;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class SpawnDiceCommand : BaseCommand
     {

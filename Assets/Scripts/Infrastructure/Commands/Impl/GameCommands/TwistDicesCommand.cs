@@ -7,7 +7,7 @@ using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class TwistDicesCommand : BaseCommand
     {

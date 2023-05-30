@@ -11,7 +11,7 @@ namespace DataBase.Dice
         [SerializeField] private EDiceType type;
         [SerializeField] private DiceView prefab;
         [SerializeField] private SpriteIterator[] spriteIterators;
-            
+
         public EDiceType Type => type;
         public DiceView Prefab => prefab;
         public SpriteIterator[] SpriteIterators => spriteIterators;

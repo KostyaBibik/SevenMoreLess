@@ -1,7 +1,7 @@
 ﻿using Enums;
 using UnityEngine.UI;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class TwistButtonCommand : BaseCommand
     {

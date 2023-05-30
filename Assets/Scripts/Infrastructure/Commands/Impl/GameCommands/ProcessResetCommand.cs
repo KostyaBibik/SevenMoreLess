@@ -3,7 +3,7 @@ using Infrastructure.Ui;
 using Infrastructure.Ui.Panels;
 using Services.Dice;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class ProcessResetCommand : BaseCommand
     {

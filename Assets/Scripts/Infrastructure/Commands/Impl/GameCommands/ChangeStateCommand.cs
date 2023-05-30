@@ -1,7 +1,7 @@
 ﻿using Enums;
 using UniRx;
 
-namespace Infrastructure.Commands.Impl
+namespace Infrastructure.Commands.Impl.GameCommands
 {
     public class ChangeStateCommand : BaseCommand
     {

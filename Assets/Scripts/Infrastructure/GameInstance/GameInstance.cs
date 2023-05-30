@@ -2,6 +2,7 @@
 using Enums;
 using Infrastructure.Commands;
 using Infrastructure.Commands.Impl;
+using Infrastructure.Commands.Impl.GameCommands;
 using Infrastructure.Factories.Impl;
 using Infrastructure.GameInstance.GameStates;
 using Infrastructure.Ui;

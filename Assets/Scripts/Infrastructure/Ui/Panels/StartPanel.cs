@@ -1,5 +1,7 @@
 ﻿using Enums;
+using Infrastructure.Commands;
 using Services.Game;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Views.Ui;
@@ -12,6 +14,9 @@ namespace Infrastructure.Ui.Panels
         [SerializeField] private TwistBtnView twistBtnView;
         [Space] [SerializeField] private ComparisonView[] comparisonViews;
 
+        private ReactiveProperty<EComparisonStatus> _selectedComparison = new ReactiveProperty<EComparisonStatus>();
+        private readonly CommandProcessor commandProcessor = new CommandProcessor();
+        
         public override EPanelType PanelType => panelType;
         public Button TwistBtnView => twistBtnView.Button;
 
@@ -23,21 +28,47 @@ namespace Infrastructure.Ui.Panels
 
         private void InitComparison()
         {
-            for (var i = 0; i < comparisonViews.Length; i++)
+            foreach (var button in comparisonViews)
             {
-                var index = i;
-                comparisonViews[index].Toggle.onValueChanged.AddListener(delegate(bool flag)
+                button.Toggle.onValueChanged.AddListener(value =>
                 {
-                    CheckForActiveComparison();
-                    
-                    if(!flag) 
-                        return;
-                    
-                    GameMatcher.ComparisonChoice = comparisonViews[index].ComparisonStatus;
+                    if (value)
+                    {
+                        foreach (var otherButton in comparisonViews)
+                        {
+                            if (otherButton != button)
+                            {
+                                otherButton.Toggle.isOn = false;
+                            }
+                        }
+                        _selectedComparison.Value = button.ComparisonStatus;
+                    }
+                    else if (button.Toggle.isOn && _selectedComparison.Value == button.ComparisonStatus)
+                    {
+                        button.Toggle.isOn = false;
+                        _selectedComparison.Value = EComparisonStatus.None;
+                    }
                 });
             }
-        }
 
+            foreach (var button in comparisonViews)
+            {
+                var index = button;
+                _selectedComparison.Subscribe(_ =>
+                {
+                    index.Toggle.isOn = _selectedComparison.Value == index.ComparisonStatus;
+                    index.FlagImage.sprite = index.Toggle.isOn ? index.FlagOnSelect : index.FlagOnInactive;
+                    index.GlowImage.gameObject.SetActive(index.Toggle.isOn);
+                });
+            }
+
+            _selectedComparison.Subscribe(_ =>
+            {
+                CheckForActiveComparison();
+                GameMatcher.ComparisonChoice = _selectedComparison.Value;
+            });
+        }
+        
         private void CheckForActiveComparison()
         {
             var activeStatus = false;
@@ -56,10 +87,7 @@ namespace Infrastructure.Ui.Panels
 
         public void ResetToggleGroup()
         {
-            for (var index = 0; index < comparisonViews.Length; index++)
-            {
-                comparisonViews[index].Toggle.isOn = false;
-            }
+            _selectedComparison.Value = EComparisonStatus.None;
         }
     }
 }
