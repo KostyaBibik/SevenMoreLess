@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 963ffbde6645d4345b128f8ed0162d68, type: 3}
+    - {fileID: 2800000, guid: 6e00ca7fe346a704484b7305373d3a2e, type: 3}
+    - {fileID: 2800000, guid: 93b88df80bc7b5a498cebb852fe700bd, type: 3}
+    - {fileID: 2800000, guid: 97bf97b911bacd047bf08d9b35fd99d1, type: 3}
+    - {fileID: 2800000, guid: 8d06413487ba3ea40946ce4f2510eef6, type: 3}
+    - {fileID: 2800000, guid: da985cd1beab81d4c886743b7e83701c, type: 3}
+    - {fileID: 2800000, guid: 2ee82552bb8b7d548a5e20ff4c675997, type: 3}
+    - {fileID: 2800000, guid: 2f01c464332e40249a7f6f141455c12f, type: 3}
+    - {fileID: 2800000, guid: 9d65a79d1756ccc489f625496ed8c7d3, type: 3}
+    - {fileID: 2800000, guid: 8486e2a363ff25a4b976fc14c1712321, type: 3}
+    - {fileID: 2800000, guid: 99c0f7c000b7a51468346cc046346d8c, type: 3}
+    - {fileID: 2800000, guid: 614e5450281ac254e9f222bc17560327, type: 3}
+    - {fileID: 2800000, guid: 1f093b891b2df5d4d95c1aeece1d379b, type: 3}
+    - {fileID: 2800000, guid: 7197ea7316b5e6a41a4771f7493e3079, type: 3}
+    - {fileID: 2800000, guid: 80e102d82eddf2c4d8df147ad7e1e94b, type: 3}
+    - {fileID: 2800000, guid: dfa23ddd3f8d77a489222b2ff6475969, type: 3}
+    - {fileID: 2800000, guid: 3e29745786fc5d64bb17882d93712d05, type: 3}
+    - {fileID: 2800000, guid: ad2d6cd0999481b45955a95b8b0bbc0d, type: 3}
+    - {fileID: 2800000, guid: 5b6b37c1c0524644a82bbff1996dd137, type: 3}
+    - {fileID: 2800000, guid: e7e14bcfc0a1a394baeae2e60dfda9d8, type: 3}
+    - {fileID: 2800000, guid: 7a2fe79fdba97b64c8ae448694ea2fff, type: 3}
+    - {fileID: 2800000, guid: f3612f1f7af85664ab54ba81e3c80880, type: 3}
+    - {fileID: 2800000, guid: d331fefac10fe9b41b74e9d9bf00bad1, type: 3}
+    - {fileID: 2800000, guid: 70f27328a9f315040baa862d5fb3a701, type: 3}
+    - {fileID: 2800000, guid: f1fc4863b34ebe24cba3fcc089b7d5a9, type: 3}
+    - {fileID: 2800000, guid: 0b077c7da45d152419b2928b2d5988c9, type: 3}
+    - {fileID: 2800000, guid: 04b5b70b0df003d479b3f2d1144afaa7, type: 3}
+    - {fileID: 2800000, guid: b9a4ef6b668fa314aafdc793a18db187, type: 3}
+    - {fileID: 2800000, guid: cfdd2080e72fb14429f1206bbd7d0082, type: 3}
+    - {fileID: 2800000, guid: b2a1dde7762654249a17c69b4b4a7d2f, type: 3}
+    - {fileID: 2800000, guid: aea025328d475e646a2f6aa92b143c7f, type: 3}
+    - {fileID: 2800000, guid: 9bc6a8c6c285b6748848cbb3e28b8dd2, type: 3}
+    - {fileID: 2800000, guid: 301a0b9e56122a44d89cf3bff16e4404, type: 3}
+    - {fileID: 2800000, guid: a92112d8ef94914449765908896a7c03, type: 3}
+    - {fileID: 2800000, guid: dff03658d993b6a42a5fd5ae6bfb3735, type: 3}
+    - {fileID: 2800000, guid: 34caa32112d3d6c40942484b8ec4dbb6, type: 3}
+    - {fileID: 2800000, guid: a3a488c892625e040bbd9d85759ab329, type: 3}
+    - {fileID: 2800000, guid: 2db1b16674c87e542bec63f61e3290f6, type: 3}
+    - {fileID: 2800000, guid: bf65831b04e937f4492b16f3c4d98680, type: 3}
+    - {fileID: 2800000, guid: 928a6c21624a3854abe9173fc35301fb, type: 3}
+    - {fileID: 2800000, guid: 01fd8febbcd892d46b726b4860e4f3d0, type: 3}
+    - {fileID: 2800000, guid: d227a9a3b81225e4ba170896528eaadf, type: 3}
+    - {fileID: 2800000, guid: 2fc216b83dbc35f459be057320ab6e7d, type: 3}
+    - {fileID: 2800000, guid: dedbadeae3bf60a40b27e3e2c8917fda, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 614e5450281ac254e9f222bc17560327, type: 3}
+  - {fileID: 21300000, guid: cfdd2080e72fb14429f1206bbd7d0082, type: 3}
+  - {fileID: 21300000, guid: 99c0f7c000b7a51468346cc046346d8c, type: 3}
+  - {fileID: 21300000, guid: ad2d6cd0999481b45955a95b8b0bbc0d, type: 3}
+  - {fileID: 21300000, guid: 34caa32112d3d6c40942484b8ec4dbb6, type: 3}
+  - {fileID: 21300000, guid: 928a6c21624a3854abe9173fc35301fb, type: 3}
+  - {fileID: 21300000, guid: 5b6b37c1c0524644a82bbff1996dd137, type: 3}
+  - {fileID: 21300000, guid: da985cd1beab81d4c886743b7e83701c, type: 3}
+  - {fileID: 21300000, guid: aea025328d475e646a2f6aa92b143c7f, type: 3}
+  - {fileID: 21300000, guid: 2ee82552bb8b7d548a5e20ff4c675997, type: 3}
+  - {fileID: 21300000, guid: f1fc4863b34ebe24cba3fcc089b7d5a9, type: 3}
+  - {fileID: 21300000, guid: 7197ea7316b5e6a41a4771f7493e3079, type: 3}
+  - {fileID: 21300000, guid: 8486e2a363ff25a4b976fc14c1712321, type: 3}
+  - {fileID: 21300000, guid: d227a9a3b81225e4ba170896528eaadf, type: 3}
+  - {fileID: 21300000, guid: 8d06413487ba3ea40946ce4f2510eef6, type: 3}
+  - {fileID: 21300000, guid: 2f01c464332e40249a7f6f141455c12f, type: 3}
+  - {fileID: 21300000, guid: 2db1b16674c87e542bec63f61e3290f6, type: 3}
+  - {fileID: 21300000, guid: 9bc6a8c6c285b6748848cbb3e28b8dd2, type: 3}
+  - {fileID: 21300000, guid: 3e29745786fc5d64bb17882d93712d05, type: 3}
+  - {fileID: 21300000, guid: b2a1dde7762654249a17c69b4b4a7d2f, type: 3}
+  - {fileID: 21300000, guid: 70f27328a9f315040baa862d5fb3a701, type: 3}
+  - {fileID: 21300000, guid: dff03658d993b6a42a5fd5ae6bfb3735, type: 3}
+  - {fileID: 21300000, guid: 2fc216b83dbc35f459be057320ab6e7d, type: 3}
+  - {fileID: 21300000, guid: a3a488c892625e040bbd9d85759ab329, type: 3}
+  - {fileID: 21300000, guid: 80e102d82eddf2c4d8df147ad7e1e94b, type: 3}
+  - {fileID: 21300000, guid: a92112d8ef94914449765908896a7c03, type: 3}
+  - {fileID: 21300000, guid: 93b88df80bc7b5a498cebb852fe700bd, type: 3}
+  - {fileID: 21300000, guid: 1f093b891b2df5d4d95c1aeece1d379b, type: 3}
+  - {fileID: 21300000, guid: 97bf97b911bacd047bf08d9b35fd99d1, type: 3}
+  - {fileID: 21300000, guid: dedbadeae3bf60a40b27e3e2c8917fda, type: 3}
+  - {fileID: 21300000, guid: d331fefac10fe9b41b74e9d9bf00bad1, type: 3}
+  - {fileID: 21300000, guid: 04b5b70b0df003d479b3f2d1144afaa7, type: 3}
+  - {fileID: 21300000, guid: bf65831b04e937f4492b16f3c4d98680, type: 3}
+  - {fileID: 21300000, guid: b9a4ef6b668fa314aafdc793a18db187, type: 3}
+  - {fileID: 21300000, guid: 01fd8febbcd892d46b726b4860e4f3d0, type: 3}
+  - {fileID: 21300000, guid: 0b077c7da45d152419b2928b2d5988c9, type: 3}
+  - {fileID: 21300000, guid: 9d65a79d1756ccc489f625496ed8c7d3, type: 3}
+  - {fileID: 21300000, guid: dfa23ddd3f8d77a489222b2ff6475969, type: 3}
+  - {fileID: 21300000, guid: 301a0b9e56122a44d89cf3bff16e4404, type: 3}
+  - {fileID: 21300000, guid: 963ffbde6645d4345b128f8ed0162d68, type: 3}
+  - {fileID: 21300000, guid: f3612f1f7af85664ab54ba81e3c80880, type: 3}
+  - {fileID: 21300000, guid: 6e00ca7fe346a704484b7305373d3a2e, type: 3}
+  - {fileID: 21300000, guid: 7a2fe79fdba97b64c8ae448694ea2fff, type: 3}
+  - {fileID: 21300000, guid: e7e14bcfc0a1a394baeae2e60dfda9d8, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - dice_5
+  - RoundedEllipse2
+  - dice_4
+  - glow_blu
+  - dice-six-faces-four_38563
+  - dice-six-faces-two_38562
+  - Green_button
+  - Card_Gold
+  - texture
+  - coin_b
+  - plashka
+  - dice_icon_160198
+  - dice_3
+  - dice_icon_160195
+  - buttonz_bar
+  - dice_1
+  - dice-six-faces-six_39563
+  - top_bar_trxture
+  - dice_icon_160199
+  - starX
+  - minus
+  - dice-six-faces-five_39565
+  - dice_icon_160196
+  - dice-six-faces-one_39564
+  - flag_blu
+  - win_Glow
+  - button_info
+  - dice_6
+  - button_menu
+  - dice_icon_160197
+  - lobby_bot_1
+  - plus_top_bar
+  - dice-six-faces-three_39562
+  - RoundedEllipse
+  - dice_icon_160194
+  - plus
+  - dice_2
+  - flag_pink
+  - V
+  - bottom_bar_line
+  - icon_power_dicr
+  - button_back
+  - icon_gold
+  - icon_coin
+  m_RenderDataMap: {}
+  m_Tag: UI
+  m_IsVariant: 0

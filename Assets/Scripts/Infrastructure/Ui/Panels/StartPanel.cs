@@ -1,5 +1,8 @@
-﻿using Enums;
+﻿using System.Collections.Generic;
+using DataBase.Ui;
+using Enums;
 using Infrastructure.Commands;
+using Infrastructure.Commands.Impl.UiCommands;
 using Services.Game;
 using UniRx;
 using UnityEngine;
@@ -14,7 +17,8 @@ namespace Infrastructure.Ui.Panels
         [SerializeField] private TwistBtnView twistBtnView;
         [Space] [SerializeField] private ComparisonView[] comparisonViews;
 
-        private ReactiveProperty<EComparisonStatus> _selectedComparison = new ReactiveProperty<EComparisonStatus>();
+        private readonly ReactiveProperty<EComparisonStatus> _selectedComparison = new ReactiveProperty<EComparisonStatus>();
+        private readonly List<ComparisonBtnPresenter> _comparisonBtnPresenters = new List<ComparisonBtnPresenter>();
         private readonly CommandProcessor commandProcessor = new CommandProcessor();
         
         public override EPanelType PanelType => panelType;
@@ -28,37 +32,25 @@ namespace Infrastructure.Ui.Panels
 
         private void InitComparison()
         {
-            foreach (var button in comparisonViews)
+            foreach (var comparisonView in comparisonViews)
             {
-                button.Toggle.onValueChanged.AddListener(value =>
-                {
-                    if (value)
-                    {
-                        foreach (var otherButton in comparisonViews)
-                        {
-                            if (otherButton != button)
-                            {
-                                otherButton.Toggle.isOn = false;
-                            }
-                        }
-                        _selectedComparison.Value = button.ComparisonStatus;
-                    }
-                    else if (button.Toggle.isOn && _selectedComparison.Value == button.ComparisonStatus)
-                    {
-                        button.Toggle.isOn = false;
-                        _selectedComparison.Value = EComparisonStatus.None;
-                    }
-                });
+                var comparisonBtnModel = new ComparisonBtnModel();
+                var comparisonBtnPresenter = new ComparisonBtnPresenter(comparisonView, comparisonBtnModel);
+                _comparisonBtnPresenters.Add(comparisonBtnPresenter);
             }
 
-            foreach (var button in comparisonViews)
+            foreach (var comparisonBtnPresenter in _comparisonBtnPresenters)
             {
-                var index = button;
+                var comparisonCommand = new ComparisonCommand(comparisonBtnPresenter, _selectedComparison, comparisonViews);
+                comparisonBtnPresenter.onToggleChanged += delegate { commandProcessor.AddCommand(comparisonCommand); };
+            }
+
+            foreach (var comparisonBtnPresenter in _comparisonBtnPresenters)
+            {
+                var updateComparisonViewCommand = new UpdateComparisonViewCommand(comparisonBtnPresenter, _selectedComparison);
                 _selectedComparison.Subscribe(_ =>
                 {
-                    index.Toggle.isOn = _selectedComparison.Value == index.ComparisonStatus;
-                    index.FlagImage.sprite = index.Toggle.isOn ? index.FlagOnSelect : index.FlagOnInactive;
-                    index.GlowImage.gameObject.SetActive(index.Toggle.isOn);
+                    commandProcessor.AddCommand(updateComparisonViewCommand);
                 });
             }
 
@@ -71,18 +63,7 @@ namespace Infrastructure.Ui.Panels
         
         private void CheckForActiveComparison()
         {
-            var activeStatus = false;
-            
-            for (var i = 0; i < comparisonViews.Length; i++)
-            {
-                if (!comparisonViews[i].Toggle.isOn) 
-                    continue;
-                
-                activeStatus = true;
-                break;
-            }
-            
-            twistBtnView.Button.interactable = activeStatus;
+            twistBtnView.Button.interactable = _selectedComparison.Value != EComparisonStatus.None;
         }
 
         public void ResetToggleGroup()
