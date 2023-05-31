@@ -15,5 +15,6 @@ The project is focused on building a code architecture with an uncomplicated Ui 
 
 #### Preview
 
-https://github.com/KostyaBibik/SevenMoreLess/assets/77735628/6a4de718-5934-4082-861a-61c6c6885c00
+https://github.com/KostyaBibik/SevenMoreLess/assets/77735628/848d3ffb-df8a-41f0-89c0-19f29a042298
+
 
