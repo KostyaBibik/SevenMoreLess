@@ -1,13 +1,4 @@
 ## Description
-
-This is a test project for the "Skill Cap" company.
-
-- Plugins used in the project:
-```bash
-├── Zenject                  
-├── TextMesh Pro          
-├── UniRx               
-```
  
 The project is focused on building a code architecture with an uncomplicated Ui and using various architectural patterns
 
